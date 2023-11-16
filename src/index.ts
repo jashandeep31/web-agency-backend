@@ -25,10 +25,7 @@ app.use(
         saveUninitialized: true,
     })
 );
-passportConfig(passport, {
-    email: "test@t.com",
-    password: "5",
-});
+passportConfig(passport);
 
 // app.use(express.json());
 app.use(passport.initialize());
@@ -73,6 +70,10 @@ app.get("/login", async (req, res, next) => {
     res.render("admin/login");
 });
 
+app.get("/signup", async (req, res, next) => {
+    res.render("admin/signup");
+});
+
 app.get("/logout", async (req, res, next) => {
     req.logout(function (err) {
         return res.redirect("/login");
@@ -86,7 +87,7 @@ app.post(
         failureRedirect: "/login?q=failed",
     })
 );
-app.use("/api/v1/user", userRoutes);
+app.use("/user", userRoutes);
 app.use("/contact", contactRoutes);
 app.use(errorController);
 app.listen(8000, () => {

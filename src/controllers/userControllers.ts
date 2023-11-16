@@ -22,24 +22,12 @@ export const signUpUser = catchAsync(
         if (!user) {
             return next(new AppError("Something went wrong", 400));
         }
-
-        const token = jwt.sign(
-            {
-                id: user.id,
-                expiresIn: "90d",
-            },
-            process.env.JWT_SECRET_KEY as string
-        );
-
-        return res.status(201).json({
-            message: "SignUp successful",
-            data: {
-                user: {
-                    name: user.name,
-                    role: user.role,
-                    token: token,
-                },
-            },
+        req.logIn(data, (loginErr) => {
+            if (loginErr) {
+                return res.redirect("/signup?q=loginFailed");
+            }
+            // Redirect to a success page or any other desired route
+            return res.redirect("/admin");
         });
     }
 );

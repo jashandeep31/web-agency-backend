@@ -1,6 +1,6 @@
 import localStrategy from "passport-local";
 import User from "../models/userModel";
-function passportConfig(passport: any, email: any) {
+function passportConfig(passport: any) {
     const authMyUser = async (email, password, done) => {
         const user = await User.findOne({ email: email });
         if (!user || !(await user.matchPasswords(password, user.password))) {

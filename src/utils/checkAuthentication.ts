@@ -7,8 +7,13 @@ export const checkAuthenticationAsAdmin = async (
 ) => {
     if (req.isAuthenticated()) {
         res.locals.user = req.user;
-        // res.locals.user = req.user;
-        return next();
+        const user: any = req.user;
+        res.locals.user = user;
+        if (user.role === "admin") {
+            return next();
+        } else {
+            return res.redirect("/login");
+        }
     } else {
         return res.redirect("/login");
     }
