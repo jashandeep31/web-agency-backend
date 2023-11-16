@@ -3,7 +3,7 @@ interface IContact extends Document {
     name: string;
     email: string;
     query: string;
-    status: "new" | "pending_to_contact" | "re_contact" | "completed";
+    status: "new" | "pending_to_contact" | "completed";
     phoneNumber?: string;
 }
 
@@ -23,7 +23,7 @@ const contactSchema = new mongoose.Schema<IContact>(
         },
         status: {
             type: String,
-            enum: ["new", "pending_to_contact", "re_contact", "completed"],
+            enum: ["new", "pending_to_contact", "completed"],
             default: "new",
         },
         phoneNumber: {

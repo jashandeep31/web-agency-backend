@@ -14,9 +14,54 @@ export const createContact = catchAsync(
         if (!contact) {
             return next(new AppError("Something went wrong", 400));
         }
+        const referringPage: string | undefined = req.get("referer");
+        req.flash("message", "Your response is recorded successfully");
+        if (referringPage?.includes("/contact")) {
+            return res.redirect("/contact");
+        } else {
+            return res.redirect("/");
+        }
+    }
+);
 
-        return res.status(201).json({
-            message: "Registration successful",
-        });
+export const deleteContact = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.id;
+        if (!id) {
+            return next(new AppError("Id is required", 400));
+        }
+
+        const contact = await Contact.findByIdAndDelete(id);
+        if (!contact) {
+            return next(new AppError("Contact not found", 404));
+        }
+        return res.redirect("/admin");
+    }
+);
+
+export const updateOneState = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.id;
+        if (!id) {
+            return next(new AppError("Id is required", 400));
+        }
+        const contact = await Contact.findById(id);
+
+        if (!contact) {
+            return next(new AppError("Contact not found", 404));
+        }
+        if (contact.status === "new") {
+            await Contact.findByIdAndUpdate(id, {
+                status: "pending_to_contact",
+            });
+        } else if (contact.status === "pending_to_contact") {
+            await Contact.findByIdAndUpdate(id, {
+                status: "completed",
+            });
+        }
+
+        // return res.status(201).
+        return res.redirect("/admin");
+        // if
     }
 );
