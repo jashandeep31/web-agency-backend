@@ -33,7 +33,7 @@ app.use(passport.session());
 app.use(flash());
 
 // app.use("/public", express.static(path.join(__dirname)));
-    app.set("view engine", "ejs");
+app.set("view engine", "ejs");
 // app.use(express.static(__dirname + "public"));
 app.use(express.static(path.join(__dirname, "public")));
 mongooseConnection();
@@ -90,6 +90,6 @@ app.post(
 app.use("/user", userRoutes);
 app.use("/contact", contactRoutes);
 app.use(errorController);
-app.listen(8000, () => {
+app.listen(8001, () => {
     console.log("server is running at " + PORT);
 });
