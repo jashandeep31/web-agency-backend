@@ -21,6 +21,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Full name</th>
                         <th scope="col">Email</th>
+                        <th scope="col">PhoneNumber</th>
                         <th scope="col">Message</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -44,6 +45,11 @@
                             <a href="mailto:<%= contact.email %>">
                                 <%= contact.email %>
                             </a>
+                        </td>
+                        <td>
+                           
+                                <%= contact.phoneNumber %>
+                            
                         </td>
                         <td class="fs-6"><%= contact.query %></td>
                         <td style="display: flex">

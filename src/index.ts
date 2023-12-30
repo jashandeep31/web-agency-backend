@@ -33,7 +33,7 @@ app.use(passport.session());
 app.use(flash());
 
 // app.use("/public", express.static(path.join(__dirname)));
-app.set("view engine", "ejs");
+    app.set("view engine", "ejs");
 // app.use(express.static(__dirname + "public"));
 app.use(express.static(path.join(__dirname, "public")));
 mongooseConnection();

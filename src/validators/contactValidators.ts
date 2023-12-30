@@ -16,4 +16,9 @@ export const contactCreateSchema = [
             min: 10,
         })
         .withMessage("Name be must of 10 characters"),
+    body("phoneNumber")
+        .isLength({
+            min: 10,
+        })
+        .withMessage("PhoneNumber be must of 10 characters"),
 ];

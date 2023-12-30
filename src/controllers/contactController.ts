@@ -7,7 +7,7 @@ import AppError from "../utils/AppError";
 export const createContact = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
         const data = findAndSendMissingValues(
-            ["name", "email", "query"],
+            ["name", "email", "query","phoneNumber"],
             req.body
         );
         const contact = await Contact.create(data);
