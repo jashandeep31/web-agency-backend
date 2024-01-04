@@ -16,6 +16,7 @@ import passport from "passport";
 import passportConfig from "./utils/passport-config";
 import { checkAuthenticationAsAdmin } from "./utils/checkAuthentication";
 import serverless from "serverless-http";
+
 dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
