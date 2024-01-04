@@ -15,15 +15,16 @@ import Contact from "./models/contactModel";
 import passport from "passport";
 import passportConfig from "./utils/passport-config";
 import { checkAuthenticationAsAdmin } from "./utils/checkAuthentication";
+import serverless from "serverless-http";
 dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
-    session({
-        secret: "keyboard cat",
-        resave: false,
-        saveUninitialized: true,
-    })
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+  })
 );
 passportConfig(passport);
 
@@ -41,55 +42,56 @@ app.use(cors());
 const PORT = process.env.PORT || 8001;
 
 app.get("/", (req, res, next) => {
-    res.render("./index", { messages: req.flash("message") });
+  res.render("./index", { messages: req.flash("message") });
 });
 
 app.get("/index", (req, res, next) => {
-    res.redirect("/");
+  res.redirect("/");
 });
 app.get("/about", (req, res, next) => {
-    res.render("./about");
+  res.render("./about");
 });
 app.get("/service", (req, res, next) => {
-    res.render("./services");
+  res.render("./services");
 });
 app.get("/project", (req, res, next) => {
-    res.render("./projects");
+  res.render("./projects");
 });
 
 app.get("/contact", (req, res, next) => {
-    res.render("contact", { messages: req.flash("message") });
+  res.render("contact", { messages: req.flash("message") });
 });
 
 app.get("/admin", checkAuthenticationAsAdmin, async (req, res, next) => {
-    const contacts = await Contact.find({}).sort({ createdAt: "desc" });
-    res.render("admin/index", { contacts });
+  const contacts = await Contact.find({}).sort({ createdAt: "desc" });
+  res.render("admin/index", { contacts });
 });
 
 app.get("/login", async (req, res, next) => {
-    res.render("admin/login");
+  res.render("admin/login");
 });
 
 app.get("/signup", async (req, res, next) => {
-    res.render("admin/signup");
+  res.render("admin/signup");
 });
 
 app.get("/logout", async (req, res, next) => {
-    req.logout(function (err) {
-        return res.redirect("/login");
-    });
+  req.logout(function (err) {
+    return res.redirect("/login");
+  });
 });
 
 app.post(
-    "/login",
-    passport.authenticate("local", {
-        successRedirect: "/admin?q=success",
-        failureRedirect: "/login?q=failed",
-    })
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/admin?q=success",
+    failureRedirect: "/login?q=failed",
+  })
 );
 app.use("/user", userRoutes);
 app.use("/contact", contactRoutes);
 app.use(errorController);
-app.listen(8001, () => {
-    console.log("server is running at " + PORT);
-});
+// app.listen(8001, () => {
+//   console.log("server is running at " + PORT);
+// });
+export const handler = serverless(app);
