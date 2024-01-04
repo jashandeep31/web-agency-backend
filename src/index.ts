@@ -15,8 +15,6 @@ import Contact from "./models/contactModel";
 import passport from "passport";
 import passportConfig from "./utils/passport-config";
 import { checkAuthenticationAsAdmin } from "./utils/checkAuthentication";
-import serverless from "serverless-http";
-
 dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -92,7 +90,6 @@ app.post(
 app.use("/user", userRoutes);
 app.use("/contact", contactRoutes);
 app.use(errorController);
-// app.listen(8001, () => {
-//   console.log("server is running at " + PORT);
-// });
-export const handler = serverless(app);
+app.listen(8001, () => {
+  console.log("server is running at " + PORT);
+});
